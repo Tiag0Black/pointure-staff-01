@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <p class="eyebrow">ESPACE DE POINTAGE STAFF</p>
+  <h1>Gère ton <span>service.</span></h1>
+  <p class="muted">Entre ton nom et ton grade, puis lance ou arrête ton service.</p>
+</section>
+<div class="panel narrow">
+  <form method="post" action="{{ url_for('start_service') }}">
+    <label for="name">Ton nom STAFF</label>
+    <input id="name" name="name" maxlength="80" placeholder="Ex. Jean Dupont" required>
+    <label for="grade">Ton grade</label>
+    <select id="grade" name="grade" required>
+      {% for grade in grades %}<option value="{{ grade }}">{{ grade }}</option>{% endfor %}
+    </select>
+    <button class="btn primary" type="submit">▶ LANCER MON SERVICE</button>
+  </form>
+  <div class="separator"></div>
+  <form method="post" action="{{ url_for('stop_service') }}">
+    <label for="stop-name">Ton nom STAFF pour arrêter</label>
+    <input id="stop-name" name="name" maxlength="80" placeholder="Le même nom qu'au lancement" required>
+    <button class="btn danger" type="submit">■ ARRÊTER MON SERVICE</button>
+  </form>
+  <div class="separator"></div>
+  <form method="get" action="{{ url_for('history_lookup') }}">
+    <label for="history-name">Consulter mon historique</label>
+    <input id="history-name" name="name" maxlength="80" placeholder="Ton nom STAFF" required>
+    <button class="btn secondary" type="submit">Voir mon historique</button>
+  </form>
+  <p class="hint">L'heure de début, l'heure de fin et la durée sont enregistrées automatiquement.</p>
+</div>
+{% endblock %}

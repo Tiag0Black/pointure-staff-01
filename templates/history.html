@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Historique · {{ name }}{% endblock %}
+{% block content %}
+<div class="page-head">
+  <p class="eyebrow">HISTORIQUE INDIVIDUEL</p>
+  <h1>{{ name }}</h1>
+  <p class="muted">Récapitulatif des pointages.</p>
+</div>
+<div class="stats">
+  <div class="stat"><small>Total cette semaine</small><strong>{{ weekly }}</strong></div>
+  <div class="stat"><small>État</small><strong class="{{ 'green' if active else '' }}">{{ "En service" if active else "Hors service" }}</strong></div>
+</div>
+<div class="panel">
+  <h2>Historique des services</h2>
+  {% if rows %}
+  <div class="table-wrap"><table>
+    <thead><tr><th>Date</th><th>Grade</th><th>Début</th><th>Fin</th><th>Durée</th></tr></thead>
+    <tbody>{% for row in rows %}
+    <tr>
+      <td>{{ local_time(row.started_at, "%d/%m/%Y") }}</td>
+      <td>{{ row.grade }}</td>
+      <td>{{ local_time(row.started_at) }}</td>
+      <td>{{ local_time(row.ended_at) if row.ended_at else "—" }}</td>
+      <td>{{ fmt_duration(row.duration_seconds) if row.ended_at else "En cours" }}</td>
+    </tr>{% endfor %}</tbody>
+  </table></div>
+  {% else %}<p class="muted">Aucun pointage pour le moment.</p>{% endif %}
+  <a class="btn secondary inline" href="{{ url_for('index') }}">Retour au pointage</a>
+</div>
+{% endblock %}
